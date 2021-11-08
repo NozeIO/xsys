@@ -1,85 +1,47 @@
-<h2>Macro
+<h2>xsys
   <img src="http://zeezide.com/img/macro/MacroExpressIcon128.png"
        align="right" width="100" height="100" />
 </h2>
 
-A small, unopinionated "don't get into my way" / "I don't wanna `wait`" 
-asynchronous web framework for Swift.
-With a strong focus on replicating the Node APIs in Swift.
-But in a typesafe, and fast way.
+Posix wrappers and naming shims.
 
-Macro is a more capable variant of 
-[µExpress](https://github.com/NozeIO/MicroExpress).
-The goal is still to keep a small core, but add some 
-[Noze.io](http://noze.io)
-modules and concepts.
+Instead of having to do this in all your code:
 
-Eventually it might evolve into Noze.io v2 (once backpressure enabled streams
-are fully working).
-
-The companion [MacroExpress](https://github.com/Macro-swift/MacroExpress)
-package adds Express.js-like middleware processing and functions, as well
-as templates.
-[MacroLambda](https://github.com/Macro-swift/MacroLambda) has the bits to
-directly deploy Macro applications on AWS Lambda.
-
-## Streams
-
-Checkout [Noze.io for people who don't know Node](http://noze.io/noze4nonnode/),
-most things apply to Macro as well.
-
-## What does it look like?
-
-The Macro [Examples](https://github.com/Macro-swift/Examples) package 
-contains a few examples which all can run straight from the source as
-swift-sh scripts.
-
-The most basic HTTP server:
 ```swift
-#!/usr/bin/swift sh
-import Macro // @Macro-swift ~> 0.8.0
+#if os(Linux)
+  import Glibc
+#else
+  import Darwin
+#endif
 
-http
-  .createServer { req, res in
-    res.writeHead(200, [ "Content-Type": "text/html" ])
-    res.write("<h1>Hello Client: \(req.url)</h1>")
-    res.end()
-  }
-  .listen(1337)
+let h = dlopen("/blub")
 ```
 
-Macro also provides additional Node-like modules, such as:
-- `fs`
-- `path`
-- `jsonfile`
-- `JSON`
-- `basicAuth`
-- `querystring`
+You can do this:
 
+```swift
+import xsys
 
-## Environment Variables
+let h = dlopen("/blub")
+```
 
-- `macro.core.numthreads`
-- `macro.core.iothreads`
-- `macro.core.retain.debug`
-- `macro.concat.maxsize`
-- `macro.streams.debug.rc`
+### `timeval_any`
+
+Abstracts three different Posix types into one common protocol, and provides common
+operations for all of them.
+
+- `timeval_t`
+- `timespec_t`
+- `time_t`
 
 ### Links
 
-- [µExpress](http://www.alwaysrightinstitute.com/microexpress-nio2/)
+- [Macro.swift](https://github.com/Macro-swift/Macro)
 - [Noze.io](http://noze.io)
-- [SwiftNIO](https://github.com/apple/swift-nio)
-- JavaScript Originals
-  - [Connect](https://github.com/senchalabs/connect)
-  - [Express.js](http://expressjs.com/en/starter/hello-world.html)
-- Swift Apache
-  - [mod_swift](http://mod-swift.org)
-  - [ApacheExpress](http://apacheexpress.io)
 
 ### Who
 
-**Macro** is brought to you by
+**xsys** is brought to you by
 the
 [Always Right Institute](http://www.alwaysrightinstitute.com)
 and
