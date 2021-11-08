@@ -25,6 +25,7 @@ public enum sockaddr_any {
   case AF_INET6(sockaddr_in6)
   case AF_LOCAL(sockaddr_un)
   
+  @inlinable
   public var domain: Int32 {
     switch self {
       case .AF_INET:  return xsys.AF_INET
@@ -33,6 +34,7 @@ public enum sockaddr_any {
     }
   }
   
+  @inlinable
   public var len: __uint8_t {
 #if os(Linux)
     switch self {
@@ -51,6 +53,7 @@ public enum sockaddr_any {
 #endif
   }
   
+  @inlinable
   public var port : Int? {
     get {
       switch self {
@@ -72,16 +75,20 @@ public enum sockaddr_any {
   
   // initializers (can this be done in a better way?)
   
+  @inlinable
   public init(_ address: sockaddr_in) {
     self = .AF_INET(address)
   }
+  @inlinable
   public init(_ address: sockaddr_in6) {
     self = .AF_INET6(address)
   }
+  @inlinable
   public init(_ address: sockaddr_un) {
     self = .AF_LOCAL(address)
   }
   
+  @inlinable
   public init?<T: SocketAddress>(_ address: T?) {
     guard let address = address else { return nil }
     
@@ -115,6 +122,7 @@ public enum sockaddr_any {
 #if !os(Windows) // TODO: port me using WinSock2
 extension sockaddr_any: CustomStringConvertible {
   
+  @inlinable
   public var description: String {
     // description is added to the addresses in SocketAddress.swift
     switch self {

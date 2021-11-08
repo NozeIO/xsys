@@ -41,17 +41,20 @@
 public extension time_t {
   
   /// Returns the current time.
+  @inlinable
   static var now : time_t { return xsys.time(nil) }
   
   /// Initialize the `time_t` value from Unix `tm` value (date components).
   /// Assumes the values are given in *local time*.
   /// Remember that the `time_t` itself is in UTC.
+  @inlinable
   init(_ tm: xsys.struct_tm) {
     self = tm.localTime
   }
   /// Initialize the `time_t` value from Unix `tm` value (date components).
   /// Assumes the values are given in *UTC time*.
   /// Remember that the `time_t` itself is in UTC.
+  @inlinable
   init(utc tm: xsys.struct_tm) {
     self = tm.utcTime
   }
@@ -59,6 +62,7 @@ public extension time_t {
   /// Converts the `time_t` timestamp into date components (`tz` struct) living
   /// in the UTC timezone.
   /// Remember that the `time_t` itself is in UTC.
+  @inlinable
   var componentsInUTC : xsys.struct_tm {
     var t  = self
     var tm = xsys.struct_tm()
@@ -69,6 +73,7 @@ public extension time_t {
   /// Converts the `time_t` timestamp into date components (`tz` struct) living
   /// in the local timezone of the Unix environment.
   /// Remember that the `time_t` itself is in UTC.
+  @inlinable
   var componentsInLocalTime : xsys.struct_tm {
     var t  = self
     var tm = xsys.struct_tm()
@@ -98,20 +103,24 @@ public extension xsys.struct_tm {
   
   /// Create a Unix date components structure from a timestamp. This variant
   /// creates components in the local timezone.
+  @inlinable
   init(_ tm: time_t) {
     self = tm.componentsInLocalTime
   }
   
   /// Create a Unix date components structure from a timestamp. This variant
   /// creates components in the UTC timezone.
+  @inlinable
   init(utc tm: time_t) {
     self = tm.componentsInUTC
   }
   
+  @inlinable
   var utcTime : time_t {
     var tm = self
     return timegm(&tm)
   }
+  @inlinable
   var localTime : time_t {
     var tm = self
     return mktime(&tm)

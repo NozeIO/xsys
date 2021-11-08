@@ -160,9 +160,10 @@
 
   extension POSIXErrorCode : Error {}
 
+  @inlinable
   public var errno : Int32 {
-      get { return Glibc.errno }
-      set { Glibc.errno = newValue }
+    get { return Glibc.errno }
+    set { Glibc.errno = newValue }
   }
   
 #else // MacOS
@@ -170,9 +171,10 @@
 
   public let EWOULDBLOCK = Darwin.EWOULDBLOCK
 
+  @inlinable
   public var errno : Int32 {
-      get { return Darwin.errno }
-      set { Darwin.errno = newValue }
+    get { return Darwin.errno }
+    set { Darwin.errno = newValue }
   }
 
   // this doesn't seem to work though

@@ -60,24 +60,27 @@ public extension timeval_any {
 
 extension time_t : timeval_any {
   
+  @inlinable
   public init(seconds: Int, milliseconds: Int = 0) {
     assert(milliseconds == 0) // just print a warning, the user should know
     self = seconds
   }
   
-  public var seconds      : Int { return self }
-  public var milliseconds : Int { return self * 1000 }
+  @inlinable public var seconds      : Int { return self }
+  @inlinable public var milliseconds : Int { return self * 1000 }
 }
 
 
 extension timeval : timeval_any {
   
+  @inlinable
   public static var now : timeval {
     var now = timeval()
     _ = gettimeofday(&now, nil)
     return now
   }
 
+  @inlinable
   public init(_ ts: timespec) {
     #if swift(>=4.1)
       self.init()
@@ -90,6 +93,7 @@ extension timeval : timeval_any {
 #endif
   }
   
+  @inlinable
   public init(seconds: Int, milliseconds: Int = 0) {
     #if swift(>=4.1)
       self.init()
@@ -102,11 +106,13 @@ extension timeval : timeval_any {
 #endif
   }
   
+  @inlinable
   public var seconds : Int {
     // TBD: rounding on tv_usec?
     return Int(tv_sec)
   }
   
+  @inlinable
   public var milliseconds : Int {
     return (tv_sec * 1000) + (Int(tv_usec) / 1000)
   }
@@ -115,8 +121,9 @@ extension timeval : timeval_any {
 
 extension timespec : timeval_any {
   
-  public static var now : timespec { return timespec(timeval.now) }
+  @inlinable public static var now : timespec { return timespec(timeval.now) }
 
+  @inlinable
   public init(_ tv: timeval) {
     #if swift(>=4.1)
       self.init()
@@ -125,6 +132,7 @@ extension timespec : timeval_any {
     tv_nsec = Int(tv.tv_usec) * 1000
   }
   
+  @inlinable
   public init(seconds: Int, milliseconds: Int = 0) {
     #if swift(>=4.1)
       self.init()
@@ -133,11 +141,13 @@ extension timespec : timeval_any {
     tv_nsec = (milliseconds % 1000) * 1000000
   }
   
+  @inlinable
   public var seconds : Int {
     // TBD: rounding on tv_nsec?
     return tv_sec
   }
   
+  @inlinable
   public var milliseconds : Int {
     return (tv_sec * 1000) + (tv_nsec / 1000000)
   }
