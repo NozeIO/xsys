@@ -46,13 +46,13 @@
 // TODO: not required anymore? varargs work on Linux?
 //       but not in Xcode yet?
 
-private let dlHandle = dlopen(nil, RTLD_NOW)
-private let fnFcntl  = dlsym(dlHandle, "fcntl")
-private let fnIoctl  = dlsym(dlHandle, "ioctl")
+@usableFromInline let dlHandle = dlopen(nil, RTLD_NOW)
+@usableFromInline let fnFcntl  = dlsym(dlHandle, "fcntl")
+@usableFromInline let fnIoctl  = dlsym(dlHandle, "ioctl")
 
-typealias fcntlViType  =
+@usableFromInline typealias fcntlViType  =
     @convention(c) (Int32, Int32, Int32) -> Int32
-typealias ioctlVipType =
+@usableFromInline typealias ioctlVipType =
     @convention(c) (Int32, CUnsignedLong, UnsafeMutablePointer<Int32>) -> Int32
 
 @inlinable
